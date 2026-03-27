@@ -1,0 +1,48 @@
+# See https://help.github.com/articles/ignoring-files for more about ignoring files.
+
+# --- Arquivos Temporários de Editores e Sistema ---
+# Como você usa VS Code no Ubuntu, ignore as pastas de configuração dele
+.vscode/
+.DS_Store
+.directory
+*~
+*.swp
+
+# --- Configurações do Bundler ---
+/.bundle
+
+# --- Segurança e Variáveis de Ambiente ---
+# Ignora o seu .env com as senhas do Postgres, mas PERMITE o .env.example
+/.env*
+!/.env.example
+!/.env*.erb
+
+# --- Logs e Arquivos Temporários ---
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# --- Pidfiles (processos rodando) ---
+/tmp/pids/*
+!/tmp/pids/
+!/tmp/pids/.keep
+
+# Ignora bancos SQLite e uploads locais
+/storage/*
+!/storage/.keep
+/tmp/storage/*
+!/tmp/storage/
+!/tmp/storage/.keep
+
+# Ignora dumps do PostgreSQL caso você gere algum na pasta db
+/db/*.sql
+/db/*.dump
+
+# --- Assets e Node ---
+/public/assets
+/node_modules
+/app/assets/builds/*
+!/app/assets/builds/.keep
+
+/config/master.key

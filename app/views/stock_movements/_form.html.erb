@@ -1,0 +1,38 @@
+<%= form_with(model: stock_movement) do |form| %>
+  <% if stock_movement.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(stock_movement.errors.count, "error") %> prohibited this stock_movement from being saved:</h2>
+
+      <ul>
+        <% stock_movement.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :movement_date, style: "display: block" %>
+    <%= form.datetime_field :movement_date %>
+  </div>
+
+  <div>
+    <%= form.label :reason, style: "display: block" %>
+    <%= form.text_field :reason %>
+  </div>
+
+  <div>
+    <%= form.label :item_id, style: "display: block" %>
+    <%= form.collection_select :item_id, Item.all, :id, :name_item %>
+  </div>
+
+  <div>
+    <%= form.label :quantiry_stock, style: "display: block"%>
+    <%= form.number_field :quantity %>
+  
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
