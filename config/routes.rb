@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :stock_movements
+  resources :stock_movements, except: [:destroy] # impede a exlusão de uma movimentação estoque
   resources :items
   resources :brands
   resources :categories

@@ -1,5 +1,5 @@
 class BrandsController < ApplicationController
-  before_action :set_brand, only: %i[ show edit update destroy ]
+  before_action :set_brand, only: %i[ show edit update]
 
   # GET /brands or /brands.json
   def index
@@ -22,7 +22,6 @@ class BrandsController < ApplicationController
   # POST /brands or /brands.json
   def create
     @brand = Brand.new(brand_params)
-
     respond_to do |format|
       if @brand.save
         format.html { redirect_to @brand, notice: "Brand was successfully created." }
@@ -49,11 +48,18 @@ class BrandsController < ApplicationController
 
   # DELETE /brands/1 or /brands/1.json
   def destroy
-    @brand.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to brands_path, notice: "Brand was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    begin
+    if @brand.items.any?
+      redirect_to brands_path, alert: "Não é possível excluir uma categoria que está associada a um produto"
+    else
+      @brand.destroy!
+      respond_to do |format|
+        format.html { redirect_to brands_path, notice: "Brand was successfully destroyed.", status: :see_other }
+        format.json { head :no_content }
+      end
+    end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to brands_path, alert:"Marca não encontrada"
     end
   end
 
@@ -65,6 +71,6 @@ class BrandsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def brand_params
-      params.require(:brand).permit(:name_brand, :quantity_brand)
+      params.require(:brand).permit(:name_brand)
     end
 end
