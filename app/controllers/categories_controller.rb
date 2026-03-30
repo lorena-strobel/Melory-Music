@@ -1,5 +1,5 @@
 class CategoriesController < ApplicationController
-  before_action :set_category, only: %i[ show edit update destroy ]
+  before_action :set_category, only: %i[ show edit update]
 
   # GET /categories or /categories.json
   def index
@@ -22,23 +22,22 @@ class CategoriesController < ApplicationController
   # POST /categories or /categories.json
   def create
     @category = Category.new(category_params)
-
-    respond_to do |format|
-      if @category.save
-        format.html { redirect_to @category, notice: "Category was successfully created." }
-        format.json { render :show, status: :created, location: @category }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @category.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @category.save
+          format.html { redirect_to @category, notice: "Categoria criada com sucesso." }
+          format.json { render :show, status: :created, location: @category }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @category.errors, status: :unprocessable_entity }
+        end
       end
-    end
   end
 
   # PATCH/PUT /categories/1 or /categories/1.json
   def update
     respond_to do |format|
       if @category.update(category_params)
-        format.html { redirect_to @category, notice: "Category was successfully updated.", status: :see_other }
+        format.html { redirect_to @category, notice: "Categoria atualizada com sucesso.", status: :see_other }
         format.json { render :show, status: :ok, location: @category }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -49,11 +48,18 @@ class CategoriesController < ApplicationController
 
   # DELETE /categories/1 or /categories/1.json
   def destroy
-    @category.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to categories_path, notice: "Category was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
+    begin
+    if @category.items.any?
+      redirect_to categories_path, alert: "Não é possível excluir, instrumentos musicais estão associados a categoria"
+    else
+      @category.destroy!
+      respond_to do |format|
+        format.html { redirect_to categories_path, notice: "Categoria excluído com sucesso.", status: :see_other }
+        format.json { head :no_content }
+      end
+    end
+    rescue ActiveRecord::RecordNotFound
+      redirect_to categories_path, alert: "Categoria não encontrada"
     end
   end
 
@@ -65,6 +71,6 @@ class CategoriesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def category_params
-      params.require(:category).permit(:name_category, :quantity_category)
+      params.require(:category).permit(:name_category)
     end
 end

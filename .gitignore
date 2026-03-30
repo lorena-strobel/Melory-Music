@@ -45,4 +45,13 @@
 /app/assets/builds/*
 !/app/assets/builds/.keep
 
+# --- Credenciais e Chaves ---
 /config/master.key
+/config/credentials/production.key
+
+# --- Configurações do RVM ---
+.ruby-version
+.ruby-gemset
+
+# --- Pasta de cache do Bootsnap ---
+/tmp/cache/bootsnap*

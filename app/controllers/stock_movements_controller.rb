@@ -1,5 +1,5 @@
 class StockMovementsController < ApplicationController
-  before_action :set_stock_movement, only: %i[ show edit update destroy ]
+  before_action :set_stock_movement, only: %i[ show edit update]
 
   # GET /stock_movements or /stock_movements.json
   def index
@@ -22,12 +22,25 @@ class StockMovementsController < ApplicationController
   # POST /stock_movements or /stock_movements.json
   def create
     @stock_movement = StockMovement.new(stock_movement_params)
+    @item = Item.find_by(id: @stock_movement.item_id)
 
     respond_to do |format|
-      if @stock_movement.save
-        format.html { redirect_to @stock_movement, notice: "Stock movement was successfully created." }
-        format.json { render :show, status: :created, location: @stock_movement }
+      # verifica se tem estoque suficiente
+      if @item && @item.quantity_item.to_i >= params[:quantity_stock].to_i
+        if @stock_movement.save
+          # atualiza estoque de item ao realizar a movimentação
+          new_quantity_stock = @item.quantity_item.to_i - params[:quantity_stock].to_i
+          @item.update(quantity_item: new_quantity_stock)
+          
+          format.html { redirect_to @stock_movement, notice: "Stock movement was successfully created." }
+          format.json { render :show, status: :created, location: @stock_movement }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
+        end
       else
+        # se não tiver estoque 
+        @stock_movement.errors.add(:base, "Estoque insuficiente ou item não encontrado")
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
       end
@@ -44,16 +57,6 @@ class StockMovementsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /stock_movements/1 or /stock_movements/1.json
-  def destroy
-    @stock_movement.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to stock_movements_path, notice: "Stock movement was successfully destroyed.", status: :see_other }
-      format.json { head :no_content }
     end
   end
 
