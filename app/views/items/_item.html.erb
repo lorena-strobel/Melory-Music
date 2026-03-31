@@ -1,32 +1,32 @@
 <div id="<%= dom_id item %>">
   <p>
-    <strong>Name item:</strong>
+    <strong><%= Item.human_attribute_name(:name_item) %></strong>
     <%= item.name_item %>
   </p>
 
   <p>
-    <strong>Quantity item:</strong>
+    <strong><%= Item.human_attribute_name(:quantity_item) %></strong>
     <%= item.quantity_item %>
   </p>
 
   <p>
-    <strong>Price item:</strong>
+    <strong><%= Item.human_attribute_name(:price_item) %></strong>
     <%= item.price_item %>
   </p>
 
   <p>
-    <strong>Condition:</strong>
+    <strong><%= Item.human_attribute_name(:condition) %></strong>
     <%= item.condition %>
   </p>
 
   <p>
-    <strong>Category:</strong>
-    <%= item.category_id %>
+    <strong><%= Item.human_attribute_name(:category_id) %></strong>
+    <%= item.category&.name_category %>
   </p>
 
   <p>
-    <strong>Brand:</strong>
-    <%= item.brand_id %>
+    <strong><%= Item.human_attribute_name(:brand_id) %></strong>
+    <%= item.brand&.name_brand %>
   </p>
 
 </div>

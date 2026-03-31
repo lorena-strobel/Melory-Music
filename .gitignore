@@ -55,3 +55,18 @@
 
 # --- Pasta de cache do Bootsnap ---
 /tmp/cache/bootsnap*
+
+# --- Pasta de cache da IDE e extensões ---
+.cache/
+.history/
+*.log
+
+# --- Pasta de cobertura de testes (se usar SimpleCov depois) ---
+/coverage/
+
+# --- Configurações locais do VS Code ---
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json

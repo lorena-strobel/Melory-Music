@@ -4,6 +4,7 @@ class ItemsController < ApplicationController
   # GET /items or /items.json
   def index
     @items = Item.all
+    @items = Item.includes(:category, :brand).all
     @total = total_value
   end
 
@@ -26,7 +27,7 @@ class ItemsController < ApplicationController
 
     if @item # se item existir
       new_quantity = @item.quantity_item.to_i + item_params[:quantity_item].to_i # se existir quantidade é adicionada a existente
-    
+
     respond_to do |format|
       if @item.update(quantity_item: new_quantity, price_item: item_params[:price_item])
         format.html { redirect_to @item, notice: "Item atualizado com sucesso" }
@@ -38,7 +39,7 @@ class ItemsController < ApplicationController
     end
 
     else
-    # Se o item não existir no banco
+      # Se o item não existir no banco
       @item = Item.new(item_params)
 
       respond_to do |format|
@@ -77,8 +78,8 @@ class ItemsController < ApplicationController
     end
     rescue ActiveRecord::RecordNotFound # se não existir lança erro de item não encontrado
       respond_to do |format|
-        format.html { redirect_to items_path, notice: "Item não encontrado."}
-        format.json { render json: { error: "Item não encontrado"} , status: :not_found }
+        format.html { redirect_to items_path, notice: "Item não encontrado." }
+        format.json { render json: { error: "Item não encontrado" }, status: :not_found }
       end
     end
   end
@@ -95,8 +96,8 @@ class ItemsController < ApplicationController
     end
 
     def total_value
-      @total = Item.all.sum{|i| i.price_item.to_f * i.quantity_item.to_i}
+      @total = Item.all.sum { |i| i.price_item.to_f * i.quantity_item.to_i }
       # formata como moeda
       ActionController::Base.helpers.number_to_currency(@total, unit: "R$ ", separator: ",", delimiter: ".")
     end
-  end
+end

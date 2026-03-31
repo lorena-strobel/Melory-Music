@@ -1,5 +1,5 @@
 class BrandsController < ApplicationController
-  before_action :set_brand, only: %i[ show edit update]
+  before_action :set_brand, only: %i[ show edit update destroy]
 
   # GET /brands or /brands.json
   def index
@@ -50,11 +50,11 @@ class BrandsController < ApplicationController
   def destroy
     begin
     if @brand.items.any?
-      redirect_to brands_path, alert: "Não é possível excluir uma categoria que está associada a um produto"
+      redirect_to brands_path, alert: "Não é possível excluir uma marca que está associada a um produto"
     else
       @brand.destroy!
       respond_to do |format|
-        format.html { redirect_to brands_path, notice: "Brand was successfully destroyed.", status: :see_other }
+        format.html { redirect_to brands_path, notice: "Marca excluída com sucesso", status: :see_other }
         format.json { head :no_content }
       end
     end

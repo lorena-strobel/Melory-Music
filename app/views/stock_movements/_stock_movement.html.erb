@@ -1,17 +1,17 @@
 <div id="<%= dom_id stock_movement %>">
   <p>
-    <strong>Movement date:</strong>
+    <strong><%= StockMovement.human_attribute_name(:movement_date) %></strong>
     <%= stock_movement.movement_date %>
   </p>
 
   <p>
-    <strong>Reason:</strong>
+    <strong><%= StockMovement.human_attribute_name(:reason) %></strong>
     <%= stock_movement.reason %>
   </p>
 
   <p>
-    <strong>Item:</strong>
-    <%= stock_movement.name_item %>
+    <strong><%= StockMovement.human_attribute_name(:item) %></strong>
+    <%= stock_movement.item&.name_item %>
   </p>
 
 </div>

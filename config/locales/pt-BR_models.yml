@@ -1,0 +1,36 @@
+pt-BR:
+  hello: "Olá Mundo"
+  activerecord:
+    models:
+      item: "Item"
+      category: "Categoria"
+      brand: "Marca"
+      stock_movement: "Movimentação de Estoque"
+    attributes:
+      item:
+        name_item: "Item"
+        quantity_item: "Quantidade do Item"
+        price_item: "Preco do item"
+        condition: "Condição"
+        category_id: "Categoria"
+        brand_id: "Marca"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      category:
+        name_category: "Nome"
+        quantity_category: "Quantidade de categorias"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+      brand:
+        name_brand: "Nome"
+        quantity_brand: "Quantidade de marcas"
+        created_at: "Criado em"
+        updated_at: "Atualizado em" 
+      stock_movement:
+        movement_date: "Tipo de movimentação"
+        reason: "Motivo da movimentação"
+        quantity_stock: "Quantidade movimentada"
+        item: "Item"
+        created_at: "Criado em"
+        updated_at: "Atualizado em"
+        

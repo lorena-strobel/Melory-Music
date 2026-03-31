@@ -1,11 +1,11 @@
 <div id="<%= dom_id brand %>">
   <p>
-    <strong>Name brand:</strong>
+    <strong><%= Brand.human_attribute_name(:name_brand) %></strong>
     <%= brand.name_brand %>
   </p>
 
   <p>
-    <strong>Quantity brand:</strong>
+    <strong><%= Brand.human_attribute_name(:quantity_brand) %></strong>
     <%= brand.quantity_brand %>
   </p>
 

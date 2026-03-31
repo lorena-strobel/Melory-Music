@@ -16,8 +16,30 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
+<body class="bg-dark">
+    <div class="d-flex w-100 min-vh-100">
+      
+      <% unless controller_name == 'home' %>
+        <aside>
+          <%= render 'layouts/sidebar' %>
+        </aside>
+      <% end %>
 
-  <body>
-    <%= yield %>
+      <main class="flex-grow-1 p-4 bg-light overflow-auto">
+        
+        <div class="container-fluid mb-4">
+          <% flash.each do |type, msg| %>
+            <div class="alert alert-<%= type == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
+              <%= msg %>
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          <% end %>
+        </div>
+
+        <div class="container-fluid">
+          <%= yield %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

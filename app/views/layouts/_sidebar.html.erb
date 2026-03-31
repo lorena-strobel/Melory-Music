@@ -1,0 +1,61 @@
+<div id="sidebar-wrapper">
+  <input type="checkbox" id="sidebar-check" class="d-none">
+
+  <div id="sidebar" 
+       class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark shadow shadow-lg" 
+       style="width: 280px; height: 100vh; position: sticky; top: 0; transition: all 0.3s ease;">
+    
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <a href="/" class="d-flex align-items-center text-white text-decoration-none overflow-hidden">
+        <div class="bg-danger rounded-3 p-2 me-2 d-flex align-items-center justify-content-center" style="min-width: 40px; height: 40px;">
+           <i class="bi bi-music-note-beamed fs-4"></i>
+        </div>
+        <span class="fs-5 fw-bold sidebar-text text-nowrap">Melory Music</span>
+      </a>
+
+      <label for="sidebar-check" class="btn btn-sm text-white border-0 p-0" style="cursor: pointer;">
+        <i class="bi bi-chevron-left fs-5" id="side-icon" style="transition: transform 0.3s;"></i>
+      </label>
+    </div>
+
+    <div class="small text-uppercase text-secondary mb-2 sidebar-text">Menu</div>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li class="nav-item mb-1">
+        <%= link_to dashboard_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 #{current_page?(dashboard_path) ? 'bg-secondary opacity-50 fw-bold': ''}" do %>
+          <i class="bi bi-house-door fs-5 me-3"></i> 
+          <span class="sidebar-text">Dashboard</span>
+        <% end %>
+      </li>
+      <li class="nav-item mb-1">
+        <%= link_to stock_movements_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 #{current_page?(stock_movements_path) ? 'bg-secondary opacity-50 fw-bold': ''}" do %>
+          <i class="bi bi-archive fs-5 me-3"></i> 
+          <span class="sidebar-text">Estoque</span>
+        <% end %>
+      </li>
+      <li class="nav-item mb-1">
+        <%= link_to items_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 #{current_page?(items_path) ? 'bg-secondary opacity-50 fw-bold': ''}" do %>
+          <i class="bi bi-box fs-5 me-3"></i> 
+          <span class="sidebar-text">Items</span>
+        <% end %>
+      </li>
+      <li class="nav-item mb-1">
+        <%= link_to brands_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 #{current_page?(brands_path) ? 'bg-secondary opacity-50 fw-bold' : ''}" do %>
+          <i class="bi bi-tag fs-5 me-3"></i> 
+          <span class="sidebar-text">Marcas</span>
+        <% end %>
+      </li>
+      <li class="nav-item mb-1">
+        <%= link_to categories_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 #{current_page?(categories_path) ? 'bg-secondary opacity-50 fw-bold' : ''}" do %>
+          <i class="bi bi-grid fs-5 me-3"></i> 
+          <span class="sidebar-text">Categorias</span>
+        <% end %>
+      </li>
+       <hr class="text-secondary opacity-25">
+        <div class="mt-auto"> <%= link_to root_path, class: "nav-link text-white d-flex align-items-center px-2 py-2 mb-2" do %>
+            <i class="bi bi-arrow-left fs-5 me-3 text-secondary"></i>
+            <strong class="sidebar-text">Voltar para Início</strong>
+          <% end %>
+        </div>
+    </ul>
+  </div>
+</div>

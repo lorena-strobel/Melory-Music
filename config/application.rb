@@ -16,6 +16,11 @@ module MeloryMusic
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets tasks])
 
+    # configuração para o I18n, para permitir a traduzir componentes do sistema
+    config.i18n.load_path += Dir[Rails.root.join("my", "locales", '**', "*.{rb,yml}")]
+    I18n.available_locales = [:en, :"pt-BR"]
+    I18n.default_locale = :"pt-BR"
+    
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

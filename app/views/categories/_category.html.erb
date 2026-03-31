@@ -1,11 +1,11 @@
 <div id="<%= dom_id category %>">
   <p>
-    <strong>Name category:</strong>
+    <strong><%= Category.human_attribute_name(:name_category) %></strong>
     <%= category.name_category %>
   </p>
 
   <p>
-    <strong>Quantity category:</strong>
+    <strong><%= Category.human_attribute_name(:quantity_category) %></strong>
     <%= category.quantity_category %>
   </p>
 
