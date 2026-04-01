@@ -9,7 +9,7 @@ pt-BR:
     attributes:
       item:
         name_item: "Item"
-        quantity_item: "Quantidade do Item"
+        quantity_item: "Quantidade"
         price_item: "Preco do item"
         condition: "Condição"
         category_id: "Categoria"
@@ -18,12 +18,12 @@ pt-BR:
         updated_at: "Atualizado em"
       category:
         name_category: "Nome"
-        quantity_category: "Quantidade de categorias"
+        quantity_category: "Quantidade de itens"
         created_at: "Criado em"
         updated_at: "Atualizado em"
       brand:
         name_brand: "Nome"
-        quantity_brand: "Quantidade de marcas"
+        quantity_brand: "Quantidade de itens"
         created_at: "Criado em"
         updated_at: "Atualizado em" 
       stock_movement:

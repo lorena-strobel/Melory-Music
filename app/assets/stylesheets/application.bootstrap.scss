@@ -1,19 +1,16 @@
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
 
-/* Quando o checkbox for marcado, encolhe o sidebar que vem logo depois dele (+) */
 #sidebar-check:checked + #sidebar {
     width: 85px !important;
 }
 
-/* Esconde os textos e elementos extras */
 #sidebar-check:checked + #sidebar .sidebar-text,
 #sidebar-check:checked + #sidebar hr,
 #sidebar-check:checked + #sidebar .small {
     display: none !important;
 }
 
-/* Centraliza os ícones */
 #sidebar-check:checked + #sidebar .nav-link {
     justify-content: center !important;
     padding-left: 0 !important;
@@ -24,12 +21,10 @@
     margin-right: 0 !important;
 }
 
-/* Gira o ícone da setinha */
 #sidebar-check:checked + #sidebar #side-icon {
     transform: rotate(180deg);
 }
 
-/* Evita que o texto apareça enquanto a barra está diminuindo */
 #sidebar {
     overflow-x: hidden;
     white-space: nowrap;

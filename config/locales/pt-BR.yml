@@ -1,3 +1,35 @@
 pt-BR:
   hello: "Olá Mundo"
- 
+  date:
+    formats:
+      default: "%d/%m/%Y"
+      short: "%d de %b"
+  time:
+    formats:
+      default: "%d/%m/%Y às %H:%M"
+      short: "%H:%M"
+  number:
+    currency:
+      format:
+        unit: "R$"
+        separator: ","
+        delimiter: "."
+        format: "%u %n"
+  dashboard:
+    total_items: "Total de Itens"
+    total_categories: "Total de Categorias"
+    total_brands: "Total de Marcas"
+  errors:
+    messages:
+      taken: "já está em uso"
+      blank: "Preencha todos os campos"
+    models:
+      category: "Categoria"
+    attributes:
+      category:
+        name_category: "Nome"
+      brand:
+        name_brand: "Nome"
+      item:
+        name_item: "Item"
+        

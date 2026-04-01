@@ -2,15 +2,42 @@
 
 <% content_for :title, "Brands" %>
 
-<h1>Brands</h1>
-
-<div id="brands">
-  <% @brands.each do |brand| %>
-    <%= render brand %>
-    <p>
-      <%= link_to "Show this brand", brand %>
-    </p>
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <h1 class="mb-0">Marcas</h1>
+  <%= link_to new_category_path, class: "btn btn-success" do %>
+    <i class="bi bi-plus-lg"></i> Adicionar nova marca
   <% end %>
 </div>
 
-<%= link_to "New brand", new_brand_path %>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col"><%= Brand.human_attribute_name(:name_brand) %></th>
+      <th scope="col"><%= Brand.human_attribute_name(:quantity_brand)%></th>
+      <th scope="col">Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @brands.each do |brand| %>
+      <tr>
+        <td><%= brand.name_brand %></td>
+        <td><%= brand.items.count %></td>
+        <td>
+          <div class="btn-group" role="group">
+            <%= link_to brand, class: "btn btn-sm btn-info", title: "Ver" do %>
+            <i class="bi bi-pencil"></i> Ver
+          <% end %>
+          </div>
+          <div class="btn-group" role="group">
+            <%= link_to edit_brand_path(brand), class: "btn btn-sm btn-warning", title: "Editar" do %>
+            <i class="bi bi-pencil"></i> Editar
+          <% end %>
+          </div>
+          </div>
+          <%= link_to brand, data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger", title: "Excluir" do %>
+            <i class="bi bi-trash"></i> Excluir
+          <% end %>
+        </tr>
+    <% end %>
+  </tbody>
+</table>
