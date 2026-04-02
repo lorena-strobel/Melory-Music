@@ -1,11 +1,11 @@
 <% content_for :title, "New stock movement" %>
 
-<h1>New stock movement</h1>
+<h1>Nova movimentação de estoque</h1>
 
 <%= render "form", stock_movement: @stock_movement %>
 
 <br>
 
-<div>
-  <%= link_to "Back to stock movements", stock_movements_path %>
+<div class= "mt-0">
+  <%= link_to "Voltar para Estoque", stock_movements_path, class: "btn btn-secondary" %>
 </div>

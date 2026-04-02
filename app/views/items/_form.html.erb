@@ -28,6 +28,16 @@
     </div>
 
     <div class="mb-3">
+      <%= form.label :sku, "Código SKU", class: "form-label" %>
+      <%= form.text_field :sku, class: "form-control", placeholder: "Ex: GUI-FEN-001" %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :price_brl, "Preço em Reais (BRL)", class: "form-label" %>
+      <%= form.number_field :price_brl, step: :any, class: "form-control" %>
+    </div>
+
+    <div class="mb-3">
       <%= form.label :condition, class: "form-label" %>
       <%= form.text_field :condition, class: "form-control" %>
     </div>

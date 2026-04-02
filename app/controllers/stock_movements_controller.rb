@@ -26,13 +26,13 @@ class StockMovementsController < ApplicationController
 
     respond_to do |format|
       # verifica se tem estoque suficiente
-      if @item && @item.quantity_item.to_i >= params[:quantity_stock].to_i
+      if @item && @item.quantity_item.to_i >= @stock_movement.quantity_stock.to_i
         if @stock_movement.save
           # atualiza estoque de item ao realizar a movimentação
-          new_quantity_stock = @item.quantity_item.to_i - params[:quantity_stock].to_i
-          @item.update(quantity_item: new_quantity_stock)
+          new_quantity_stock = @item.quantity_item.to_i - @stock_movement.quantity_stock.to_i
+          @item.update_column(:quantity_item, new_quantity_stock)
           
-          format.html { redirect_to @stock_movement, notice: "Stock movement was successfully created." }
+          format.html { redirect_to items_path, notice: "Estoque atualizado" }
           format.json { render :show, status: :created, location: @stock_movement }
         else
           format.html { render :new, status: :unprocessable_entity }
@@ -68,6 +68,6 @@ class StockMovementsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def stock_movement_params
-      params.require(:stock_movement).permit(:movement_date, :reason, :item_id)
+      params.require(:stock_movement).permit(:movement_date, :reason, :quantity_stock, :item_id)
     end
 end

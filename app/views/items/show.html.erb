@@ -1,10 +1,37 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @item %>
+<div class="card shadow-sm mx-auto" style="max-width: 600px;">
+  <div class="card-body p-4 text-center">
+    
+    <%= render @item %>
 
-<div>
-  <%= link_to "Edit this item", edit_item_path(@item) %> |
-  <%= link_to "Back to items", items_path %>
+    <hr class="my-4">
 
-  <%= button_to "Destroy this item", @item, method: :delete %>
+    <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center">
+      
+      <%= link_to edit_item_path(@item), class: "btn btn-sm btn-warning" do %>
+        <i class="bi bi-pencil"></i> Editar este item
+      <% end %>
+
+      <%= link_to items_path, class: "btn btn-sm btn-secondary" do %>
+        <i class="bi bi-arrow-left"></i> Voltar para itens
+      <% end %>
+
+      <%= button_to @item, method: :delete, 
+          form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+          class: "btn btn-sm btn-danger" do %>
+        <i class="bi bi-trash"></i> Excluir item
+      <% end %>
+
+    </div> 
+  </div> 
+</div>
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Título do Item</h5>
+    <h6 class="card-subtitle mb-2 text-muted">Subtítulo</h6>
+    <p class="card-text">Algum texto rápido para descrever o conteúdo do card.</p>
+    <a href="#" class="btn btn-primary">Botão de Ação</a>
+  </div>
 </div>

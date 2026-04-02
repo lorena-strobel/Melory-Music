@@ -10,29 +10,29 @@
       </ul>
     </div>
   <% end %>
+ <fieldset>
+    <div class="mb-3">
+      <%= form.label :item_id, "Selecione o Instrumento", class: "form-label" %>
+      <%= form.collection_select :item_id, Item.all, :id, :name_item, { prompt: "Escolha um item..." }, { class: "form-select" } %>
+    </div>
 
-  <div>
-    <%= form.label :movement_date, style: "display: block" %>
-    <%= form.datetime_field :movement_date %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :movement_date, class: "form-label" %>
+      <%= form.datetime_local_field :movement_date, class: "form-control"%>
+    </div>
 
-  <div>
-    <%= form.label :reason, style: "display: block" %>
-    <%= form.text_field :reason %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :reason, class: "form-label" %>
+      <%= form.text_field :reason, class: "form-control"%>
+    </div>
 
-  <div>
-    <%= form.label :item_id, style: "display: block" %>
-    <%= form.collection_select :item_id, Item.all, :id, :name_item %>
-  </div>
+    <div class="mb-3">
+      <%= form.label :quantity_stock, class: "form-label" %>
+      <%= form.number_field :quantity_stock, class: "form-control" %>
+    </div>
 
-  <div>
-    <%= form.label :quantiry_stock, style: "display: block"%>
-    <%= form.number_field :quantity %>
-  
-  </div>
-
-  <div>
-    <%= form.submit %>
-  </div>
+    <div class="mt-3">
+          <%= form.submit "Lançar movimentação de estoque", class: "btn btn-primary" %>
+        </div>
+  </fieldset>
 <% end %>

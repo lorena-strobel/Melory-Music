@@ -3,8 +3,8 @@ class ItemsController < ApplicationController
 
   # GET /items or /items.json
   def index
-    @items = Item.all
-    @items = Item.includes(:category, :brand).all
+    @q = Item.ransack(params[:q])
+    @items = @q.result(distinct: true).includes(:category, :brand)
     @total = total_value
   end
 
@@ -92,11 +92,11 @@ class ItemsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name_item, :quantity_item, :price_item, :condition, :category_id, :brand_id)
+      params.require(:item).permit(:name_item, :quantity_item, :price_item, :sku, :price_brl, :condition, :category_id, :brand_id)
     end
 
     def total_value
-      @total = Item.all.sum { |i| i.price_item.to_f * i.quantity_item.to_i }
+      @total = Item.all.sum { |i| i.price_brl.to_f * i.quantity_item.to_i }
       # formata como moeda
       ActionController::Base.helpers.number_to_currency(@total, unit: "R$ ", separator: ",", delimiter: ".")
     end

@@ -9,6 +9,27 @@
   <% end %>
 </div>
 
+<div class="card mb-4 bg-light">
+  <div class="card-body">
+    <%= search_form_for @q, class: "row g-3 align-items-end" do |f| %>
+      <div class="col-md-4">
+        <%= f.label :name_item_cont, "Pesquisar por nome", class: "form-label" %>
+        <%= f.search_field :name_item_cont, class: "form-control" %>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :category_id_eq, "Categoria", class: "form-label" %>
+        <%= f.collection_select :category_id_eq, Category.all, :id, :name_category, { include_blank: "Todas" }, { class: "form-select" } %>
+      </div>
+      <div class="col-md-3">
+        <%= f.label :brand_id_eq, "Marca", class: "form-label" %>
+        <%= f.collection_select :brand_id_eq, Brand.all, :id, :name_brand, { include_blank: "Todas" }, { class: "form-select" } %>
+      </div>
+      <div class="col-md-2">
+        <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -31,7 +52,7 @@
         <td>
           <div class="btn-group" role="group">
             <%= link_to item, class: "btn btn-sm btn-info", title: "Ver" do %>
-            <i class="bi bi-pencil"></i> Ver
+            <i class="bi bi-eye"></i> Ver
           <% end %>
           </div>
           <div class="btn-group" role="group">
@@ -39,11 +60,13 @@
             <i class="bi bi-pencil"></i> Editar
           <% end %>
           </div>
-          </div>
-          <%= link_to item, data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger", title: "Excluir" do %>
-            <i class="bi bi-trash"></i> Excluir
-          <% end %>
-        </tr>
+            <%= button_to item, method: :delete, 
+                form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+                class: "btn btn-sm btn-danger", title: "Excluir" do %>
+              <i class="bi bi-trash"></i> Excluir
+            <% end %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

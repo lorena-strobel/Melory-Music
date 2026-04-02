@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   root "home#index"
 
   get "dashboard", to: "dashboard#index", as: :dashboard
+
+  # rota para a api
+  get "/inventory/total", to: "dashboard#total_inventory"
   resources :stock_movements, except: [ :destroy ] # impede a exlusão de uma movimentação estoque
   resources :items
   resources :brands
