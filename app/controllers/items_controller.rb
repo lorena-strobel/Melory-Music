@@ -6,6 +6,23 @@ class ItemsController < ApplicationController
     @q = Item.ransack(params[:q])
     @items = @q.result(distinct: true).includes(:category, :brand)
     @total = total_value
+
+    @currency = params[:currency] || "BRL"
+    @total_brl = @items.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0) }
+
+    if @currency != "BRL"
+      response = HTTParty.get("https://economia.awesomeapi.com.br/json/last/#{@currency}-BRL")
+      if response.success?
+        @rate = response.parsed_response["#{@currency}BRL"]["bid"].to_f
+        @total_exibir = (@total_brl / @rate).round(2)
+      else
+        @rate = 1.0
+        @total_exibir = @total_brl
+      end
+    else
+      @rate = 1.0
+      @total_exibir = @total_brl
+    end
   end
 
   # GET /items/1 or /items/1.json
@@ -29,7 +46,7 @@ class ItemsController < ApplicationController
       new_quantity = @item.quantity_item.to_i + item_params[:quantity_item].to_i # se existir quantidade é adicionada a existente
 
     respond_to do |format|
-      if @item.update(quantity_item: new_quantity, price_item: item_params[:price_item])
+      if @item.update(quantity_item: new_quantity, price_brl: item_params[:price_brl])
         format.html { redirect_to @item, notice: "Item atualizado com sucesso" }
         format.json { render :show, status: :created, location: @item }
       else

@@ -19,6 +19,9 @@
 
     <div class="mt-3">
           <%= form.submit "Criar Marca", class: "btn btn-primary" %>
-        </div>
+        <%= link_to brands_path, class: "btn btn-secondary" do %>
+          <i class="bi bi-arrow-left"></i> Voltar para marcas
+        <% end %>
+    </div>
   </fieldset>
 <% end %>

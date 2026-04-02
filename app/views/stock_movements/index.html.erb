@@ -3,12 +3,31 @@
 <% content_for :title, "Stock movements" %>
 
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1 class="mb-0">Estoque</h1>
+  <h1 class="mb-0 fw-bold text-dark">Estoque</h1>
   <%= link_to new_stock_movement_path, class: "btn btn-success" do %>
     <i class="bi bi-plus-lg"></i> Realizar movimentação de estoque
   <% end %>
 </div>
+<div class="card mb-4 bg-light">
+  <div class="card-body">
+    <%= search_form_for @q, class: "row g-3 align-items-end" do |f| %>
+      
+      <div class="col-md-5">
+        <%= f.label :item_id_eq, "Filtrar por Item", class: "form-label fw-bold" %>
+        <%= f.collection_select :item_id_eq, Item.all, :id, :name_item, { include_blank: "Todos os Itens" }, { class: "form-select" } %>
+      </div>
 
+      <div class="col-md-5">
+  <%= f.label :movement_date_eq, "Data da Movimentação", class: "form-label fw-bold" %>
+  <%= f.date_field :movement_date_eq, class: "form-control" %>
+</div>
+
+      <div class="col-md-2">
+        <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -36,9 +55,6 @@
           <% end %>
           </div>
           </div>
-          <%= link_to stock_movement, data: { turbo_method: :delete, turbo_confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger", title: "Excluir" do %>
-            <i class="bi bi-trash"></i> Excluir
-          <% end %>
         </tr>
     <% end %>
   </tbody>

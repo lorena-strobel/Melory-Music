@@ -3,7 +3,8 @@ class CategoriesController < ApplicationController
 
   # GET /categories or /categories.json
   def index
-    @categories = Category.all
+    @q = Category.ransack(params[:q])
+    @categories = @q.result(distinct: true).includes(:items)
   end
 
   # GET /categories/1 or /categories/1.json
@@ -50,7 +51,7 @@ class CategoriesController < ApplicationController
   def destroy
     begin
     if @category.items.any?
-      redirect_to categories_path, alert: "Não é possível excluir, instrumentos musicais estão associados a categoria"
+      redirect_to categories_path, alert: "Não é possível excluir uma categoria associada a instrumentos musicais"
     else
       @category.destroy!
       respond_to do |format|

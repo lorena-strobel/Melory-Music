@@ -1,10 +1,25 @@
-<p style="color: green"><%= notice %></p>
+<div class="card shadow-sm mx-auto" style="max-width: 500px;">
+  <div class="card-body p-4 text-center">
+    
+  <%= render @brand %>
 
-<%= render @brand %>
+    <hr class="my-4">
 
-<div>
-  <%= link_to "Edit this brand", edit_brand_path(@brand) %> |
-  <%= link_to "Back to brands", brands_path %>
+    <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center">
+      
+      <%= link_to edit_brand_path(@brand), class: "btn btn-sm btn-warning" do %>
+        <i class="bi bi-pencil"></i> Editar esta marca
+      <% end %>
 
-  <%= button_to "Destroy this brand", @brand, method: :delete %>
+      <%= link_to brands_path, class: "btn btn-sm btn-secondary" do %>
+        <i class="bi bi-arrow-left"></i> Voltar para marcas
+      <% end %>
+
+      <%= button_to @brand, method: :delete, 
+          form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+          class: "btn btn-sm btn-danger" do %>
+        <i class="bi bi-trash"></i> Excluir marca
+      <% end %>
+    </div> 
+  </div> 
 </div>

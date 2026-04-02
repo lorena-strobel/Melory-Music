@@ -52,8 +52,12 @@
       <%= form.collection_select :brand_id, Brand.all, :id, :name_brand, {}, { class: "form-select" } %>
     </div>
 
-    <div class="mt-3">
-          <%= form.submit "Criar Item", class: "btn btn-primary" %>
-        </div>
-  </fieldset>
+    <div class="mt-3 d-flex gap-2">
+      <%= form.submit (@item.new_record? ? "Criar Item" : "Salvar Alterações"), class: "btn btn-primary" %>
+
+      <%= link_to items_path, class: "btn btn-secondary" do %>
+        <i class="bi bi-arrow-left"></i> Voltar para itens
+      <% end %>
+    </div>
+</fieldset>
 <% end %>

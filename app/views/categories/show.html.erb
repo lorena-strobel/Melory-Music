@@ -1,10 +1,22 @@
-<p style="color: green"><%= notice %></p>
+<div class="card shadow-sm mx-auto" style="max-width: 500px;">
+  <div class="card-body p-4 text-center">
+    <%= render @category %>
 
-<%= render @category %>
+    <hr class="my-4">
 
-<div>
-  <%= link_to "Edit this category", edit_category_path(@category) %> |
-  <%= link_to "Back to categories", categories_path %>
+  <div class="d-flex flex-wrap gap-2 justify-content-center align-items-center"> 
+  <%= link_to edit_category_path(@category), class: "btn btn-sm btn-warning" do %>
+      <i class="bi bi-pencil"></i> Editar esta categoria
+  <% end %>
+  <%= link_to categories_path, class: "btn btn-sm btn-secondary" do %>
+    <i class="bi bi-arrow-left"></i> Voltar para categorias
+  <% end %>
 
-  <%= button_to "Destroy this category", @category, method: :delete %>
+  <%= button_to @category, method: :delete, 
+      form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+      class: "btn btn-danger" do %>
+      <i class="bi bi-trash"></i> Excluir categoria
+  <% end %>
+</div> 
+</div>
 </div>

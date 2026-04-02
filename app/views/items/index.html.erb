@@ -3,15 +3,39 @@
 <% content_for :title, "Items" %>
 
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1 class="mb-0">Items</h1>
+  <h1 class="mb-0 fw-bold text-dark">Items</h1>
   <%= link_to new_item_path, class: "btn btn-success" do %>
     <i class="bi bi-plus-lg"></i> Adicionar novo item
   <% end %>
+  
+<div class="card mb-4 border-primary shadow-sm">
+    <div class="card-body bg-light">      
+      <%= form_with url: items_path, method: :get, local: true, class: "row g-3 align-items-center" do |f| %>
+        <div class="col-auto">
+          <label class="fw-bold">Moeda de destino:</label>
+        </div>
+        <div class="col-auto">
+          <%= f.select :currency, [['Real (BRL)', 'BRL'], ['Dólar (USD)', 'USD'], ['Euro (EUR)', 'EUR'], ['Libra (GBP)', 'GBP']], 
+              { selected: @currency }, { class: "form-select" } %>
+        </div>
+        <div class="col-auto">
+          <%= f.submit "Calcular Valor de Mercado", class: "btn btn-primary shadow-sm" %>
+        </div>
+        <% if params[:q].present? %>
+          <% params[:q].each do |key, value| %>
+            <%= hidden_field_tag "q[#{key}]", value %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
 </div>
 
 <div class="card mb-4 bg-light">
   <div class="card-body">
     <%= search_form_for @q, class: "row g-3 align-items-end" do |f| %>
+      <%= hidden_field_tag :currency, @currency %>
+      
       <div class="col-md-4">
         <%= f.label :name_item_cont, "Pesquisar por nome", class: "form-label" %>
         <%= f.search_field :name_item_cont, class: "form-control" %>
@@ -30,12 +54,13 @@
     <% end %>
   </div>
 </div>
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
       <th scope="col"><%= Item.human_attribute_name(:name_item) %></th>
       <th scope="col"><%= Item.human_attribute_name(:quantity_item)%></th>
-      <th scope="col"><%= Item.human_attribute_name(:price_item)%></th>
+      <th scope="col"><%= Item.human_attribute_name(:price_brl)%> (<%= @currency %>)</th>
       <th scope="col"><%= Item.human_attribute_name(:category_id)%></th>
       <th scope="col"><%= Item.human_attribute_name(:brand_id)%></th>
       <th scope="col">Ações</th>
@@ -46,25 +71,33 @@
       <tr>
         <td><%= item.name_item %></td>
         <td><%= item.quantity_item %></td>
-        <td><%= number_to_currency(item.price_item)%></td>
+        <td>
+          <% if @currency == 'BRL' %>
+            <%= number_to_currency(item.price_brl, unit: "R$ ", separator: ",", delimiter: ".") %>
+          <% else %>
+            <% converted = (item.price_brl.to_f / @rate.to_f).round(2) %>
+            <%= @currency %> <%= number_with_precision(converted, precision: 2, separator: ",", delimiter: ".") %>
+          <% end %>
+        </td>
         <td><%= item.category.name_category %></td>
         <td><%= item.brand.name_brand %></td>
         <td>
           <div class="btn-group" role="group">
             <%= link_to item, class: "btn btn-sm btn-info", title: "Ver" do %>
-            <i class="bi bi-eye"></i> Ver
-          <% end %>
+              <i class="bi bi-eye"></i> Ver
+            <% end %>
           </div>
           <div class="btn-group" role="group">
             <%= link_to edit_item_path(item), class: "btn btn-sm btn-warning", title: "Editar" do %>
-            <i class="bi bi-pencil"></i> Editar
-          <% end %>
-          </div>
-            <%= button_to item, method: :delete, 
-                form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
-                class: "btn btn-sm btn-danger", title: "Excluir" do %>
-              <i class="bi bi-trash"></i> Excluir
+              <i class="bi bi-pencil"></i> Editar
             <% end %>
+          </div>
+          <%# Usei d-inline-block para manter o alinhamento que você tinha %>
+          <%= button_to item, method: :delete, 
+              form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+              class: "btn btn-sm btn-danger", title: "Excluir" do %>
+            <i class="bi bi-trash"></i> Excluir
+          <% end %>
         </td>
       </tr>
     <% end %>

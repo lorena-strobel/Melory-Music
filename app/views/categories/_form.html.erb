@@ -14,9 +14,13 @@
      <%= form.label :name_category, class: "form-label" %>
       <%= form.text_field :name_category, class: "form-control"%>
     </div>
+    
+    <div class="mt-3 d-flex gap-2">
+      <%= form.submit (@category.new_record? ? "Criar Categoria" : "Salvar Alterações"), class: "btn btn-primary" %>
 
-    <div class="mt-3">
-          <%= form.submit "Criar Item", class: "btn btn-primary" %>
-        </div>
-  </fieldset>
+      <%= link_to categories_path, class: "btn btn-secondary" do %>
+        <i class="bi bi-arrow-left"></i> Voltar para categorias
+      <% end %>
+    </div>
+</fieldset>
 <% end %>
