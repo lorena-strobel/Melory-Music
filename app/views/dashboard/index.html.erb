@@ -1,89 +1,122 @@
 <div class="container mt-4">
-  <h1 class="mb-4 text-center">Dashboard Melory Music</h1>
+  <h1 class="mb-3 fw-bold text-dark">Dashboard</h1>
 
-  <%# Formulário de Teste de Conversão %>
-  <div class="card mb-4 border-primary shadow-sm">
-    <div class="card-body bg-light">
-      <h5 class="card-title text-primary"><i class="bi bi-currency-exchange"></i> Testar Conversão de Inventário</h5>
-      
-      <%= form_with url: dashboard_path, method: :get, local: true, class: "row g-3 align-items-center" do |f| %>
-        <div class="col-auto">
-          <label class="fw-bold">Escolha a moeda:</label>
-        </div>
-        <div class="col-auto">
-          <%= f.select :currency, [['Real (BRL)', 'BRL'], ['Dólar (USD)', 'USD'], ['Euro (EUR)', 'EUR'], ['Libra (GBP)', 'GBP']], 
-              { selected: @currency }, { class: "form-select" } %>
-        </div>
-        <div class="col-auto">
-          <%= f.submit "Converter Agora", class: "btn btn-primary" %>
-        </div>
-      <% end %>
+<div class="row g-4 mb-5 align-items-stretch">
+  <div class="col-md-12 col-lg-6">
+    <div class="card h-100 border-primary shadow-sm">
+      <div class="card-body bg-light d-flex flex-column justify-content-center">
+        <h5 class="card-title text-primary"><i class="bi bi-currency-exchange"></i> Cálculo de Patrimônio</h5>
+        <p class="text-muted small">Converta o valor de mercado do estoque atual para outras moedas.</p>
+        
+        <%= form_with url: dashboard_path, method: :get, local: true, class: "row g-2 align-items-center" do |f| %>
+          <div class="col-auto">
+            <label class="fw-bold small">Moeda:</label>
+          </div>
+          <div class="col-sm-6">
+            <%= f.select :currency, [['Real (BRL)', 'BRL'], ['Dólar (USD)', 'USD'], ['Euro (EUR)', 'EUR'], ['Libra (GBP)', 'GBP']], 
+                { selected: @currency }, { class: "form-select form-select-sm" } %>
+          </div>
+          <div class="col-auto">
+            <%= f.submit "Calcular", class: "btn btn-primary btn-sm shadow-sm" %>
+          </div>
+          
+          <% if params[:q].present? %>
+            <% params[:q].each do |key, value| %>
+              <%= hidden_field_tag "q[#{key}]", value %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 
-  <%# Cards Principais %>
-  <div class="row g-4 text-center mb-4">
-    
-    <%# Card de Valor Convertido (Destaque) %>
-    <div class="col-md-12 col-lg-6 mx-auto">
-      <div class="card bg-dark text-white shadow h-100">
-        <div class="card-body d-flex flex-column justify-content-center">
-          <h6 class="card-title opacity-75">VALOR TOTAL EM <%= @currency %></h6>
-          <h2 class="display-4 fw-bold">
-            <% if @currency == 'BRL' %>
-              <%= number_to_currency(@total_exibir, unit: "R$ ", separator: ",", delimiter: ".") %>
-            <% else %>
-              <%= @currency %> <%= number_with_precision(@total_exibir, precision: 2) %>
-            <% end %>
-          </h2>
-          <% if @exchange_rate %>
-            <p class="mb-0 text-info small">Cotação: 1 <%= @currency %> = R$ <%= @exchange_rate %></p>
+  <div class="col-md-12 col-lg-6">
+    <div class="card bg-dark text-white shadow h-100">
+      <div class="card-body p-4 text-center d-flex flex-column justify-content-center">
+        <h6 class="card-title opacity-75 ls-wide small uppercase">Estimativa Total (<%= @currency %>)</h6>
+        <h2 class="fw-bold my-2">
+          <% if @currency == 'BRL' %>
+            <%= number_to_currency(@total_exibir, unit: "R$ ", separator: ",", delimiter: ".") %>
+          <% else %>
+            <%= @currency %> <%= number_with_precision(@total_exibir, precision: 2, separator: ",", delimiter: ".") %>
+          <% end %>
+        </h2>
+        <% if @rate && @currency != "BRL" %>
+          <div class="d-flex justify-content-center">
+             <div class="badge text-light p-2">Cotação: 1 <%= @currency %> = R$ <%= number_with_precision(@rate, precision: 2) %></div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="row g-4 mb-5">
+    <div class="col-md-6 col-lg-3">
+      <div class="card bg-primary text-white shadow h-100 border-0">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase opacity-75 small">Patrimônio (BRL)</h6>
+          <h3 class="fw-bold mb-3"><%= number_to_currency(@total_brl, unit: "R$ ", separator: ",", delimiter: ".") %></h3>
+          <small class="d-block opacity-75">Valor bruto em caixa</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card bg-success text-white shadow h-100 border-0">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase opacity-75 small">Itens no Catálogo</h6>
+          <h3 class="fw-bold mb-3"><%= @total_items %></h3>
+          <%= link_to items_path, class: "text-white text-decoration-none small" do %>
+            Gerenciar Itens <i class="bi bi-chevron-right"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card bg-info text-white shadow h-100 border-0">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase opacity-75 small">Categorias Ativas</h6>
+          <h3 class="fw-bold mb-3"><%= @total_categories %></h3>
+          <%= link_to categories_path, class: "text-white text-decoration-none small" do %>
+            Ver Todas <i class="bi bi-chevron-right"></i>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 col-lg-3">
+      <div class="card bg-warning text-dark shadow h-100 border-0">
+        <div class="card-body">
+          <h6 class="card-title text-uppercase opacity-75 small">Histórico de Movs.</h6>
+          <h3 class="fw-bold mb-3"><%= @total_stock_movements %></h3>
+          <%= link_to stock_movements_path, class: "text-dark text-decoration-none small" do %>
+            Ver Fluxo de Caixa <i class="bi bi-chevron-right"></i>
           <% end %>
         </div>
       </div>
     </div>
   </div>
+   <div class="row mb-5">
+    <div class="col-12 text-center">
+      <div class="d-flex flex-wrap justify-content-center gap-3">
+        <%= link_to new_item_path, class: "btn btn-outline-primary btn-lg shadow-sm px-4 text-dark" do %>
+          <i class="bi bi-plus-circle"></i> Novo Item
+        <% end %>
+        
+        <%= link_to new_stock_movement_path, class: "btn btn-outline-success btn-lg shadow-sm px-4 text-dark" do %>
+          <i class="bi bi-arrow-left-right"></i> Movimentar Estoque
+        <% end %>
 
-  <%# Cards de Estatísticas %>
-  <div class="row g-4">
-    <div class="col-md-6 col-lg-3">
-      <div class="card bg-primary text-white shadow h-100">
-        <div class="card-body">
-          <h6 class="card-title text-uppercase opacity-75">Valor Total (BRL)</h6>
-          <h2 class="display-6 fw-bold">
-            <%= number_to_currency(@total_brl, unit: "R$ ", separator: ",", delimiter: ".") %>
-          </h2>
-          <small class="opacity-75">Preço base do inventário</small>
-        </div>
-      </div>
-    </div>
+        <%= link_to new_brand_path, class: "btn btn-outline-secondary btn-lg shadow-sm px-4 text-dark" do %>
+          <i class="bi bi-bookmark-plus"></i> Nova Marca
+        <% end %>
 
-    <div class="col-md-6 col-lg-3">
-      <div class="card bg-success text-white shadow h-100">
-        <div class="card-body">
-          <h6 class="card-title text-uppercase opacity-75">Itens no Catálogo</h6>
-          <h2 class="display-6 fw-bold"><%= @total_items %></h2>
-          <%= link_to "Ver todos", items_path, class: "text-white text-decoration-none small" %>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3">
-      <div class="card bg-info text-white shadow h-100">
-        <div class="card-body">
-          <h6 class="card-title text-uppercase opacity-75">Categorias</h6>
-          <h2 class="display-6 fw-bold"><%= @total_categories %></h2>
-        </div>
-      </div>
-    </div>
-
-    <div class="col-md-6 col-lg-3">
-      <div class="card bg-warning text-dark shadow h-100">
-        <div class="card-body">
-          <h6 class="card-title text-uppercase opacity-75">Movimentações</h6>
-          <h2 class="display-6 fw-bold"><%= @total_stock_movements %></h2>
-          <%= link_to "Histórico", stock_movements_path, class: "text-dark text-decoration-none small" %>
-        </div>
+        <%= link_to new_category_path, class: "btn btn-outline-info btn-lg shadow-sm px-4 text-dark" do %>
+          <i class="bi bi-tags"></i> Nova Categoria
+        <% end %>
       </div>
     </div>
   </div>

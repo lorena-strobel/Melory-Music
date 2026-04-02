@@ -1,18 +1,18 @@
 class DashboardController < ApplicationController
   def index
     @total_items = Item.count
-    @total_brands = Brand.count
-    @total_categories = Category.count
+    @total_brands = Brand.sum(:quantity_brand)
+    @total_categories = Category.sum(:quantity_category)
     @total_stock_movements = StockMovement.count
-    # cálculo do valor total em brl para exibir 
+    # cálculo do valor total em brl para exibir
     @total_brl = Item.all.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0) }
 
-    @currency = params[:currency] || 'BRL'
-    if @currency != 'BRL'
+    @currency = params[:currency] || "BRL"
+    if @currency != "BRL"
       response = HTTParty.get("https://economia.awesomeapi.com.br/json/last/#{@currency}-BRL")
       if response.success?
         @rate = response.parsed_response["#{@currency}BRL"]["bid"].to_f
-        @total_exibir = (@total_brl / @rate).round(2)  
+        @total_exibir = (@total_brl / @rate).round(2)
       end
     else
       @total_exibir = @total_brl
@@ -20,16 +20,16 @@ class DashboardController < ApplicationController
   end
 
   def total_inventory
-    # cálcula valor totoal do estoque 
-    total_brl = Item.all.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0)}
+    # cálcula valor total do estoque
+    total_brl = Item.all.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0) }
 
-    currency = params[:currency] || 'BRL' # pramentro opcional
-    
+    currency = params[:currency] || "BRL" # pramentro opcional
+
     # entrega o resultado em reais se o usuário não fornecer um parametro
-    if currency == 'BRL'
+    if currency == "BRL"
       render json: {
         total_value: total_brl,
-        currency: 'BRL'
+        currency: "BRL"
       }
     # se o usuário digitou um parametro para o cálculo da cotação
     else
@@ -47,7 +47,7 @@ class DashboardController < ApplicationController
       else
         render json: {
           error: "Tipo de moeda não suportada"
-        } , status: :bad_request
+        }, status: :bad_request
       end
     end
   end

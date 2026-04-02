@@ -1,12 +1,17 @@
 <div id="<%= dom_id brand %>">
-  <p>
-    <strong><%= Brand.human_attribute_name(:name_brand) %></strong>
+
+<div id="<%= dom_id brand %>" class="card shadow-sm p-4">
+  <h2 class="card-title text-primary mb-4 text-center">
     <%= brand.name_brand %>
-  </p>
+  </h2>
 
-  <p>
-    <strong><%= Brand.human_attribute_name(:quantity_brand) %></strong>
-    <%= brand.quantity_brand %>
-  </p>
-
+  <div class="row g-3 text-start">
+     <div class="col-12 pt-2">
+      <span class="text-muted small d-block">Total de Itens no Estoque</span>
+      <p class="mb-0 text-dark">
+        <i class="bi bi-box-seam text-primary"></i> 
+        <%= brand.items.count %> unidades cadastradas
+      </p>
+    </div>
+  </div>
 </div>

@@ -3,11 +3,31 @@
 <% content_for :title, "Brands" %>
 
 <div class="d-flex align-items-center justify-content-between mb-4">
-  <h1 class="mb-0">Marcas</h1>
+  <h1 class="mb-0 fw-bold text-dark">Marcas</h1>
   <%= link_to new_brand_path, class: "btn btn-success" do %>
     <i class="bi bi-plus-lg"></i> Adicionar nova marca
   <% end %>
 </div>
+
+<div class="card mb-4 bg-light shadow-sm">
+  <div class="card-body">
+    <%= search_form_for @q, class: "row g-3 align-items-end" do |f| %>  
+      <div class="col-md-4">
+        <%= f.label :name_brand_count, "Pesquisar por nome da marca", class: "form-label" %>
+        <%= f.search_field :name_brand_cont, class: "form-control" %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.label :items_name_item_cont, "Marca que possui o Item:", class: "form-label" %>
+        <%= f.search_field :items_name_item_cont, class: "form-control", placeholder: "Ex: Guitarra" %>
+      </div>
+
+      <div class="col-md-4">
+        <%= f.submit "Filtrar", class: "btn btn-primary w-100" %>
+      </div>
+    <% end %>
+  </div>
+</div> 
 
 <table class="table">
   <thead class="thead-dark">

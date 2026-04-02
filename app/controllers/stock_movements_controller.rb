@@ -3,7 +3,8 @@ class StockMovementsController < ApplicationController
 
   # GET /stock_movements or /stock_movements.json
   def index
-    @stock_movements = StockMovement.all
+    @q = StockMovement.ransack(params[:q])
+    @stock_movements = @q.result(distinct: true).includes(:item)
   end
 
   # GET /stock_movements/1 or /stock_movements/1.json
@@ -31,7 +32,7 @@ class StockMovementsController < ApplicationController
           # atualiza estoque de item ao realizar a movimentação
           new_quantity_stock = @item.quantity_item.to_i - @stock_movement.quantity_stock.to_i
           @item.update_column(:quantity_item, new_quantity_stock)
-          
+
           format.html { redirect_to items_path, notice: "Estoque atualizado" }
           format.json { render :show, status: :created, location: @stock_movement }
         else
@@ -39,7 +40,7 @@ class StockMovementsController < ApplicationController
           format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
         end
       else
-        # se não tiver estoque 
+        # se não tiver estoque
         @stock_movement.errors.add(:base, "Estoque insuficiente ou item não encontrado")
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
@@ -51,7 +52,7 @@ class StockMovementsController < ApplicationController
   def update
     respond_to do |format|
       if @stock_movement.update(stock_movement_params)
-        format.html { redirect_to @stock_movement, notice: "Stock movement was successfully updated.", status: :see_other }
+        format.html { redirect_to @stock_movement, notice: "Estoque editado com sucesso", status: :see_other }
         format.json { render :show, status: :ok, location: @stock_movement }
       else
         format.html { render :edit, status: :unprocessable_entity }
