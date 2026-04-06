@@ -1,15 +1,19 @@
 <%= form_with(model: stock_movement) do |form| %>
   <% if stock_movement.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(stock_movement.errors.count, "error") %> prohibited this stock_movement from being saved:</h2>
-
-      <ul>
-        <% stock_movement.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
+  <div class="alert alert-danger shadow-sm border-start border-danger" role="alert">
+    <div class="d-flex align-items-center mb-2">
+      <i class="bi bi-exclamation-octagon-fill me-2 fs-4"></i>
+      <h5 class="alert-heading mb-0 fw-bold">Erro!</h5>
     </div>
-  <% end %>
+    <hr>
+    <ul class="mb-0">
+      <% stock_movement.errors.each do |error| %>
+        <li><%= error.message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
  <fieldset>
     <div class="mb-3">
       <%= form.label :item_id, "Selecione o Instrumento", class: "form-label" %>

@@ -20,6 +20,8 @@ module MeloryMusic
     config.i18n.load_path += Dir[Rails.root.join("my", "locales", '**', "*.{rb,yml}")]
     I18n.available_locales = [:en, :"pt-BR"]
     I18n.default_locale = :"pt-BR"
+
+    config.active_record.belongs_to_required_by_default = false
     
     # Configuration for the application, engines, and railties goes here.
     #

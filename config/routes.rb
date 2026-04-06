@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get "home/index", as: :home
-  root "home#index"
 
+  root "dashboard#index"
   get "dashboard", to: "dashboard#index", as: :dashboard
 
   # rota para a api

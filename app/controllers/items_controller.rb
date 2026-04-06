@@ -5,7 +5,6 @@ class ItemsController < ApplicationController
   def index
     @q = Item.ransack(params[:q])
     @items = @q.result(distinct: true).includes(:category, :brand)
-    @total = total_value
 
     @currency = params[:currency] || "BRL"
     @total_brl = @items.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0) }
@@ -45,16 +44,15 @@ class ItemsController < ApplicationController
     if @item # se item existir
       new_quantity = @item.quantity_item.to_i + item_params[:quantity_item].to_i # se existir quantidade é adicionada a existente
 
-    respond_to do |format|
-      if @item.update(quantity_item: new_quantity, price_brl: item_params[:price_brl])
-        format.html { redirect_to @item, notice: "Item atualizado com sucesso" }
-        format.json { render :show, status: :created, location: @item }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @item.errors, status: :unprocessable_entity }
+      respond_to do |format|
+        if @item.update(quantity_item: new_quantity, price_brl: item_params[:price_brl])
+          format.html { redirect_to @item, notice: "Item atualizado com sucesso" }
+          format.json { render :show, status: :created, location: @item }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @item.errors, status: :unprocessable_entity }
+        end
       end
-    end
-
     else
       # Se o item não existir no banco
       @item = Item.new(item_params)
@@ -104,12 +102,12 @@ class ItemsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
-      @item = Item.find_by(id: params[:id])
+      @item = Item.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def item_params
-      params.require(:item).permit(:name_item, :quantity_item, :price_item, :sku, :price_brl, :condition, :category_id, :brand_id)
+      params.require(:item).permit(:name_item, :quantity_item, :sku, :price_brl, :condition, :category_id, :brand_id)
     end
 
     def total_value

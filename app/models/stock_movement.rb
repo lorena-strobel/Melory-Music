@@ -1,7 +1,9 @@
 class StockMovement < ApplicationRecord
   belongs_to :item
   delegate :name_item, to: :item, allow_nil: true
-  validates :item_id, presence: true
+  validates :item_id, presence: { message: "Item deve ser selecionado"}
+  validates :reason, presence: {message: "Motivo deve ser preenchido"}
+  validates :movement_date, presence: {message: "Data e horário devem ser preenchidos"}
   validates :quantity_stock, presence: true, numericality: {
       only_integer: true,
       greater_than_or_equal_to: 0,

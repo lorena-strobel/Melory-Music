@@ -26,41 +26,48 @@ class StockMovementsController < ApplicationController
     @item = Item.find_by(id: @stock_movement.item_id)
 
     respond_to do |format|
-      # verifica se tem estoque suficiente
-      if @item && @item.quantity_item.to_i >= @stock_movement.quantity_stock.to_i
-        if @stock_movement.save
-          # atualiza estoque de item ao realizar a movimentação
-          new_quantity_stock = @item.quantity_item.to_i - @stock_movement.quantity_stock.to_i
-          @item.update_column(:quantity_item, new_quantity_stock)
+      if @stock_movement.valid?
+        if @item && @item.quantity_item.to_i >= @stock_movement.quantity_stock.to_i
+          if @stock_movement.save
+            # Mantendo o nome da variável que você pediu
+            new_quantity_stock = @item.quantity_item.to_i - @stock_movement.quantity_stock.to_i
+            @item.update_column(:quantity_item, new_quantity_stock)
 
-          format.html { redirect_to items_path, notice: "Estoque atualizado" }
-          format.json { render :show, status: :created, location: @stock_movement }
+            format.html { redirect_to items_path, notice: "Estoque atualizado" }
+            format.json { render :show, status: :created, location: @stock_movement }
+          else
+            format.html { render :new, status: :unprocessable_entity }
+          end
         else
+          @stock_movement.errors.add(:quantity_stock, "insuficiente para esta saída")
           format.html { render :new, status: :unprocessable_entity }
-          format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
         end
       else
-        # se não tiver estoque
-        @stock_movement.errors.add(:base, "Estoque insuficiente ou item não encontrado")
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
       end
     end
   end
 
   # PATCH/PUT /stock_movements/1 or /stock_movements/1.json
-  def update
+ def update
+    @item = @stock_movement.item
+    # o valor que estava salvo no banco antes da atualização chegar
+    old_quantity = @stock_movement.quantity_stock.to_i
+
     respond_to do |format|
       if @stock_movement.update(stock_movement_params)
+        new_quantity = @stock_movement.quantity_stock.to_i
+        difference = new_quantity - old_quantity
+        
+        @item.update_column(:quantity_item, @item.quantity_item.to_i - difference)
+
         format.html { redirect_to @stock_movement, notice: "Estoque editado com sucesso", status: :see_other }
         format.json { render :show, status: :ok, location: @stock_movement }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @stock_movement.errors, status: :unprocessable_entity }
       end
     end
   end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_stock_movement

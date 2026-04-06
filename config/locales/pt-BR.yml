@@ -23,13 +23,4 @@ pt-BR:
     messages:
       taken: "já está em uso"
       blank: "Preencha todos os campos"
-    models:
-      category: "Categoria"
-    attributes:
-      category:
-        name_category: "Nome"
-      brand:
-        name_brand: "Nome"
-      item:
-        name_item: "Item"
-        
+      greater_than: "deve ser maior que %{count}"

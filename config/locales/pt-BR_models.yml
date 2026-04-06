@@ -10,7 +10,7 @@ pt-BR:
       item:
         name_item: "Item"
         quantity_item: "Quantidade"
-        price_item: "Preco do item"
+        price_brl: "Preco"
         condition: "Condição"
         category_id: "Categoria"
         brand_id: "Marca"
@@ -31,6 +31,7 @@ pt-BR:
         reason: "Motivo da movimentação"
         quantity_stock: "Quantidade movimentada"
         item: "Item"
+        item_id: "Item"
         created_at: "Criado em"
         updated_at: "Atualizado em"
-        
+   
