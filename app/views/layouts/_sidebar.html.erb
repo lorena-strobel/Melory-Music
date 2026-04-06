@@ -26,6 +26,24 @@
     #sidebar {
         overflow-x: hidden;
         white-space: nowrap;
+        background-color: #000006 !important; 
+        min-height: 103vh !important; 
+        height: 100% !important;
+        color: white !important;
+        transition: all 0.3s; 
+    }
+
+    #sidebar .nav-link {
+        color: #a2a3b7 !important; /
+    }
+
+    #sidebar .nav-link:hover {
+        color: #ffffff !important;
+        background-color: #3a3a8a !important; 
+    }
+
+    #sidebar .sidebar-text, #sidebar h5, #sidebar strong {
+        color: white !important;
     }
 </style>
 
@@ -81,6 +99,12 @@
           <span class="sidebar-text">Categorias</span>
         <% end %>
       </li>
-    </ul>
+      <hr class="text-secondary mx-2">
+      <li class="nav-item">
+        <%= link_to home_path, class: "nav-link text-white d-flex align-items-center px-2 py-2" do %>
+          <i class="bi bi-box-arrow-left fs-5 me-3"></i> <span class="sidebar-text">Voltar ao início</span>
+        <% end %>
+      </li>
+      </ul>
   </div>
 </div>

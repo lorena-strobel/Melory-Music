@@ -105,9 +105,10 @@
               <i class="bi bi-pencil"></i> Editar
             <% end %>
           </div>
-          <%# Usei d-inline-block para manter o alinhamento que você tinha %>
           <%= button_to item, method: :delete, 
-              form: { data: { turbo_confirm: "Tem certeza?" }, class: "d-inline-block" }, 
+              form: { data: 
+              { turbo_confirm: "Atenção: Ao excluir esse item todas as movimentações relacionadas a ele serão deletadas permanentemente" }, 
+              class: "d-inline-block" }, 
               class: "btn btn-sm btn-danger", title: "Excluir" do %>
             <i class="bi bi-trash"></i> Excluir
           <% end %>

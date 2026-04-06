@@ -17,13 +17,13 @@
     <%= javascript_importmap_tags %>
   </head>
 <body class="bg-dark">
+    <% if controller_name == 'home' %>
+        <%= yield %>
+    <% else %>
     <div class="d-flex w-100 min-vh-100">
-      
-      <% unless controller_name == 'home' %>
-        <aside>
-          <%= render 'layouts/sidebar' %>
-        </aside>
-      <% end %>
+      <aside>
+        <%= render 'layouts/sidebar' %>
+      </aside>
 
       <main class="flex-grow-1 p-4 bg-light overflow-auto">
         
@@ -41,5 +41,6 @@
         </div>
       </main>
     </div>
+    <% end %>
   </body>
 </html>

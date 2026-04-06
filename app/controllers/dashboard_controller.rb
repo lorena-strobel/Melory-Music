@@ -1,9 +1,13 @@
 class DashboardController < ApplicationController
   def index
     @total_items = Item.count
-    @total_brands = Brand.sum(:quantity_brand)
-    @total_categories = Category.sum(:quantity_category)
+    @total_items = Item.count
+    @total_brands = Brand.count
+    @total_categories = Category.count
     @total_stock_movements = StockMovement.count
+    # @total_brands = Brand.sum(:quantity_brand)
+    # @total_categories = Category.sum(:quantity_category)
+    # @total_stock_movements = StockMovement.count
     # cálculo do valor total em brl para exibir
     @total_brl = Item.all.sum { |item| (item.quantity_item || 0) * (item.price_brl || 0) }
 

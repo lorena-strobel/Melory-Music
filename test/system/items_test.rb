@@ -18,7 +18,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Category", with: @item.category_id
     fill_in "Condition", with: @item.condition
     fill_in "Name item", with: @item.name_item
-    fill_in "Price item", with: @item.price_item
+    fill_in "Price item", with: @item.price_brl
     fill_in "Quantity item", with: @item.quantity_item
     click_on "Create Item"
 
@@ -34,7 +34,7 @@ class ItemsTest < ApplicationSystemTestCase
     fill_in "Category", with: @item.category_id
     fill_in "Condition", with: @item.condition
     fill_in "Name item", with: @item.name_item
-    fill_in "Price item", with: @item.price_item
+    fill_in "Price item", with: @item.price_brl
     fill_in "Quantity item", with: @item.quantity_item
     click_on "Update Item"
 

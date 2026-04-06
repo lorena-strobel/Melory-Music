@@ -1,11 +1,12 @@
 Rails.application.routes.draw do
+  get "home", to: "home#index", as: :home
+  root "home#index"
 
-  root "dashboard#index"
   get "dashboard", to: "dashboard#index", as: :dashboard
 
   # rota para a api
   get "/inventory/total", to: "dashboard#total_inventory"
-  resources :stock_movements, except: [ :destroy ] # impede a exlusão de uma movimentação estoque
+  resources :stock_movements, only: [ :index, :show, :new, :create ] # impede a exlusão de uma movimentação estoque
   resources :items
   resources :brands
   resources :categories

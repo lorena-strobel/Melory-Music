@@ -88,7 +88,7 @@ class ItemsController < ApplicationController
       @item = Item.find(params[:id])
       @item.destroy!
       respond_to do |format|
-          format.html { redirect_to items_path, notice: "Item excluído com sucesso.", status: :see_other }
+          format.html { redirect_to items_path, notice: "Item e suas movimentações foram excluídas com sucesso.", status: :see_other }
           format.json { head :no_content }
     end
     rescue ActiveRecord::RecordNotFound # se não existir lança erro de item não encontrado
