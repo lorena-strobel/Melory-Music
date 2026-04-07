@@ -1,31 +1,9 @@
 @import 'bootstrap/scss/bootstrap.scss';
 @import 'bootstrap-icons/font/bootstrap-icons.css';
-
-#sidebar-check:checked + #sidebar {
-    width: 85px !important;
-}
-
-#sidebar-check:checked + #sidebar .sidebar-text,
-#sidebar-check:checked + #sidebar hr,
-#sidebar-check:checked + #sidebar .small {
-    display: none !important;
-}
-
-#sidebar-check:checked + #sidebar .nav-link {
-    justify-content: center !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
-}
-
-#sidebar-check:checked + #sidebar .nav-link i {
-    margin-right: 0 !important;
-}
-
-#sidebar-check:checked + #sidebar #side-icon {
-    transform: rotate(180deg);
-}
-
-#sidebar {
-    overflow-x: hidden;
-    white-space: nowrap;
-}
+/*
+ * ...
+ *= require bootstrap
+ *= require sidebar
+ *= require_tree .
+ *= require_self
+ */
